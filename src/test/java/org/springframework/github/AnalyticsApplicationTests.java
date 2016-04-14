@@ -2,9 +2,11 @@ package org.springframework.github;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.cloud.stream.messaging.Sink;
+import org.springframework.cloud.stream.test.stub.StubMessageProducer;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.support.MessageBuilder;
@@ -21,10 +23,11 @@ public class AnalyticsApplicationTests {
 	@Autowired
 	private Sink sink;
 
+	@Autowired
+	private StubMessageProducer messageProducer;
 
 	@Test
-	public void contextLoads() throws JsonProcessingException {
-
+	public void testWithMarshalledPojo() throws JsonProcessingException {
 		GithubData data = new GithubData();
 		data.setRepository("spring-framework");
 		data.setUsername("rossen");
@@ -32,9 +35,11 @@ public class AnalyticsApplicationTests {
 		Message<String> message =
 				MessageBuilder.withPayload(json).setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON).build();
 		this.sink.input().send(message);
-
 	}
 
-
+	@Test
+	public void testWithStubData() {
+		messageProducer.produce("issue-created.json", MimeTypeUtils.APPLICATION_JSON);
+	}
 
 }
