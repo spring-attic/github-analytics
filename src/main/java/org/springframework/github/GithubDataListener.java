@@ -15,17 +15,15 @@
  */
 package org.springframework.github;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.annotation.StreamListener;
-import org.springframework.cloud.stream.app.fieldvaluecounter.sink.FieldValueCounterSinkStoreConfiguration;
-import org.springframework.cloud.stream.app.metrics.FieldValueCounterWriter;
-import org.springframework.cloud.stream.messaging.Sink;
-import org.springframework.context.annotation.Import;
-import org.springframework.stereotype.Component;
-import org.springframework.util.ObjectUtils;
-
 import java.util.Arrays;
 import java.util.Collection;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.cloud.stream.app.metrics.FieldValueCounterWriter;
+import org.springframework.cloud.stream.messaging.Sink;
+import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 
 @Component
 public class GithubDataListener {
@@ -48,11 +46,11 @@ public class GithubDataListener {
             Collection<?> c = (value instanceof Collection) ? (Collection<?>) value
                     : Arrays.asList(ObjectUtils.toObjectArray(value));
             for (Object val : c) {
-                fieldValueCounterWriter.increment(counterName, val.toString(), 1.0);
+                this.fieldValueCounterWriter.increment(counterName, val.toString(), 1.0);
             }
         }
-        else {
-            fieldValueCounterWriter.increment(counterName, value.toString(), 1.0);
+        else if (value!=null) {
+            this.fieldValueCounterWriter.increment(counterName, value.toString(), 1.0);
         }
     }
 

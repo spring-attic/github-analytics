@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.springframework.github</groupId>
-	<artifactId>analytics</artifactId>
+	<artifactId>github-analytics</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
@@ -32,7 +32,7 @@
 
 		<dependency>
 			<groupId>org.springframework.cloud.stream.app</groupId>
-			<artifactId>field-value-counter-sink-rabbit</artifactId>
+			<artifactId>spring-cloud-starter-stream-sink-field-value-counter</artifactId>
 			<version>1.0.0.BUILD-SNAPSHOT</version>
 		</dependency>
 
@@ -66,6 +66,10 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>pl.project13.maven</groupId>
+				<artifactId>git-commit-id-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
