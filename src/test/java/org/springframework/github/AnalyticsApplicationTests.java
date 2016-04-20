@@ -2,7 +2,6 @@ package org.springframework.github;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.cloud.stream.messaging.Sink;
@@ -38,8 +37,13 @@ public class AnalyticsApplicationTests {
 	}
 
 	@Test
-	public void testWithStubData() {
-		messageProducer.produce("issue-created.json", MimeTypeUtils.APPLICATION_JSON);
+	public void testWithV1StubData() {
+		this.messageProducer.produce("v1/issue-created.json", MimeTypeUtils.APPLICATION_JSON);
+	}
+
+	@Test
+	public void testWithV2StubData() {
+		this.messageProducer.produce("v2/issue-created.json", MimeTypeUtils.APPLICATION_JSON);
 	}
 
 }
