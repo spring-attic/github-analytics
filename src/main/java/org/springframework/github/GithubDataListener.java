@@ -28,30 +28,29 @@ import org.springframework.util.ObjectUtils;
 @Component
 public class GithubDataListener {
 
+	@Autowired
+	private FieldValueCounterWriter fieldValueCounterWriter;
 
+	@StreamListener(Sink.INPUT)
+	public void listen(GithubData data) {
+		processValue("repository", data.getRepository());
+		processValue("username", data.getUsername());
+		processValue("type", data.getType());
+		processValue("action", data.getAction());
 
-    @Autowired
-    private FieldValueCounterWriter fieldValueCounterWriter;
+	}
 
-    @StreamListener(Sink.INPUT)
-    public void listen(GithubData data) {
-        processValue("repository", data.getRepository());
-        processValue("username", data.getUsername());
-
-    }
-
-
-    protected void processValue(String counterName, Object value) {
-        if ((value instanceof Collection) || ObjectUtils.isArray(value)) {
-            Collection<?> c = (value instanceof Collection) ? (Collection<?>) value
-                    : Arrays.asList(ObjectUtils.toObjectArray(value));
-            for (Object val : c) {
-                this.fieldValueCounterWriter.increment(counterName, val.toString(), 1.0);
-            }
-        }
-        else if (value!=null) {
-            this.fieldValueCounterWriter.increment(counterName, value.toString(), 1.0);
-        }
-    }
+	protected void processValue(String counterName, Object value) {
+		if ((value instanceof Collection) || ObjectUtils.isArray(value)) {
+			Collection<?> c = (value instanceof Collection) ? (Collection<?>) value
+					: Arrays.asList(ObjectUtils.toObjectArray(value));
+			for (Object val : c) {
+				this.fieldValueCounterWriter.increment(counterName, val.toString(), 1.0);
+			}
+		}
+		else if (value != null) {
+			this.fieldValueCounterWriter.increment(counterName, value.toString(), 1.0);
+		}
+	}
 
 }
