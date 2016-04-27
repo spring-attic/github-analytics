@@ -1,19 +1,22 @@
 package org.springframework.github;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.codearte.accurest.stubrunner.StubTrigger;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.cloud.stream.messaging.Sink;
-import org.springframework.cloud.stream.test.stub.StubMessageProducer;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.MimeTypeUtils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.hamcrest.Matchers.is;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = AnalyticsApplication.class)
@@ -22,8 +25,13 @@ public class AnalyticsApplicationTests {
 	@Autowired
 	private Sink sink;
 
-	@Autowired
-	private StubMessageProducer messageProducer;
+	@Autowired StubTrigger stubTriggerer;
+	@Autowired GithubDataListener githubDataListener;
+
+	@Before
+	public void setup() {
+		this.githubDataListener.clear();
+	}
 
 	@Test
 	public void testWithMarshalledPojo() throws JsonProcessingException {
@@ -38,12 +46,16 @@ public class AnalyticsApplicationTests {
 
 	@Test
 	public void testWithV1StubData() {
-		this.messageProducer.produce("v1/issue-created.json", MimeTypeUtils.APPLICATION_JSON);
+		this.stubTriggerer.trigger("issue_created_v1");
+
+		Assert.assertThat(this.githubDataListener.counter.isEmpty(), is(false));
 	}
 
 	@Test
 	public void testWithV2StubData() {
-		this.messageProducer.produce("v2/issue-created.json", MimeTypeUtils.APPLICATION_JSON);
+		this.stubTriggerer.trigger("issue_created_v2");
+
+		Assert.assertThat(this.githubDataListener.counter.isEmpty(), is(false));
 	}
 
 }

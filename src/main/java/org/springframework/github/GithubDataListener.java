@@ -15,9 +15,6 @@
  */
 package org.springframework.github;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.app.metrics.FieldValueCounterWriter;
@@ -25,11 +22,18 @@ import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 @Component
 public class GithubDataListener {
 
 	@Autowired
 	private FieldValueCounterWriter fieldValueCounterWriter;
+	Map<String, Object> counter = new HashMap<>();
+
 
 	@StreamListener(Sink.INPUT)
 	public void listen(GithubData data) {
@@ -37,7 +41,10 @@ public class GithubDataListener {
 		processValue("username", data.getUsername());
 		processValue("type", data.getType());
 		processValue("action", data.getAction());
+	}
 
+	void clear() {
+		counter.clear();
 	}
 
 	protected void processValue(String counterName, Object value) {
@@ -51,6 +58,7 @@ public class GithubDataListener {
 		else if (value != null) {
 			this.fieldValueCounterWriter.increment(counterName, value.toString(), 1.0);
 		}
+		counter.put(counterName, value);
 	}
 
 }
