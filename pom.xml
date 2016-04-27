@@ -83,6 +83,26 @@
 		</plugins>
 	</build>
 
+	<distributionManagement>
+
+		<site>
+			<id>static.springframework.org</id>
+			<url>scp://static.springframework.org/var/www/domains/springframework.org/static/htdocs/spring-security/rsa</url>
+		</site>
+
+		<!--<repository>-->
+		<!--<id>repo.spring.io</id>-->
+		<!--<name>Spring Release Repository</name>-->
+		<!--<url>https://repo.spring.io/libs-release-local</url>-->
+		<!--</repository>-->
+		<snapshotRepository>
+			<id>repo.spring.io</id>
+			<name>Spring Snapshot Repository</name>
+			<url>https://repo.spring.io/libs-snapshot-local</url>
+		</snapshotRepository>
+
+	</distributionManagement>
+
 	<repositories>
 		<repository>
 			<id>spring-snapshots</id>
