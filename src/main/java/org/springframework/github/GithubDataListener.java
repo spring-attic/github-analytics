@@ -15,17 +15,17 @@
  */
 package org.springframework.github;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.annotation.StreamListener;
-import org.springframework.cloud.stream.app.metrics.FieldValueCounterWriter;
-import org.springframework.cloud.stream.messaging.Sink;
-import org.springframework.stereotype.Component;
-import org.springframework.util.ObjectUtils;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.springframework.analytics.metrics.FieldValueCounterWriter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.cloud.stream.messaging.Sink;
+import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 
 @Component
 public class GithubDataListener {
