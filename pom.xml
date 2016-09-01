@@ -14,48 +14,41 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.3.5.RELEASE</version>
+		<version>1.4.0.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
-		<accurest-plugin.version>0.5.10</accurest-plugin.version>
-		<accurest.version>1.1.0-M6</accurest.version>
+		<spring-cloud-contract.version>1.0.0.BUILD-SNAPSHOT</spring-cloud-contract.version>
+		<spring-cloud-bom.version>Camden.BUILD-SNAPSHOT</spring-cloud-bom.version>
 	</properties>
 
 	<dependencies>
-
 		<dependency>
-			<groupId>org.springframework.cloud.stream.app</groupId>
-			<artifactId>spring-cloud-starter-stream-sink-field-value-counter</artifactId>
-			<version>1.0.0.BUILD-SNAPSHOT</version>
+			<groupId>org.springframework.analytics</groupId>
+			<artifactId>spring-analytics</artifactId>
+			<version>1.0.1.BUILD-SNAPSHOT</version>
 		</dependency>
-
-
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-stream-rabbit</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-contract-wiremock</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-stream-test-support</artifactId>
 			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>io.codearte.accurest</groupId>
-			<artifactId>stub-runner-messaging-stream</artifactId>
-			<scope>test</scope>
-			<version>${accurest.version}</version>
 		</dependency>
 
 	</dependencies>
@@ -64,8 +57,15 @@
 		<dependencies>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-contract-dependencies</artifactId>
+				<version>${spring-cloud-contract.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>Brixton.RELEASE</version>
+				<version>${spring-cloud-bom.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -82,59 +82,15 @@
 				<groupId>pl.project13.maven</groupId>
 				<artifactId>git-commit-id-plugin</artifactId>
 			</plugin>
-			<plugin>
-				<groupId>io.codearte.accurest</groupId>
-				<artifactId>accurest-maven-plugin</artifactId>
-				<version>${accurest-plugin.version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<stubs>org.springframework.github:github-webhook:stubs</stubs>
-						</configuration>
-					</execution>
-				</executions>
-				<dependencies>
-					<dependency>
-						<groupId>io.codearte.accurest</groupId>
-						<artifactId>accurest-core</artifactId>
-						<version>${accurest.version}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.toomuchcoding.jsonassert</groupId>
-						<artifactId>jsonassert</artifactId>
-						<version>0.4.1</version>
-					</dependency>
-				</dependencies>
-				<configuration>
-					<contractsDirectory>src/test/resources/accurest</contractsDirectory>
-					<basePackageForTests>accurest</basePackageForTests>
-					<baseClassForTests>com.example.accurest.BaseClass</baseClassForTests>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 
 	<distributionManagement>
-
-		<site>
-			<id>static.springframework.org</id>
-			<url>scp://static.springframework.org/var/www/domains/springframework.org/static/htdocs/spring-security/rsa</url>
-		</site>
-
-		<!--<repository>-->
-		<!--<id>repo.spring.io</id>-->
-		<!--<name>Spring Release Repository</name>-->
-		<!--<url>https://repo.spring.io/libs-release-local</url>-->
-		<!--</repository>-->
 		<snapshotRepository>
 			<id>repo.spring.io</id>
 			<name>Spring Snapshot Repository</name>
 			<url>https://repo.spring.io/libs-snapshot-local</url>
 		</snapshotRepository>
-
 	</distributionManagement>
 
 	<repositories>
@@ -157,7 +113,7 @@
 		<repository>
 			<id>spring-releases</id>
 			<name>Spring Releases</name>
-			<url>http://repo.spring.io/release</url>
+			<url>https://repo.spring.io/release</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
@@ -176,6 +132,14 @@
 			<id>spring-milestones</id>
 			<name>Spring Milestones</name>
 			<url>https://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>spring-releases</id>
+			<name>Spring Releases</name>
+			<url>https://repo.spring.io/release</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>

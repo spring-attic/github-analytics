@@ -1,2 +1,0 @@
-stubrunner.stubs.repository.root: https://repo.spring.io/snapshot/
-stubrunner.stubs.ids: org.springframework.github:github-webhook:+:stubs
