@@ -26,6 +26,7 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -35,13 +36,17 @@ public class GithubDataListener {
 	private FieldValueCounterWriter fieldValueCounterWriter;
 	Map<String, Object> counter = new HashMap<>();
 
-
 	@StreamListener(Sink.INPUT)
 	public void listen(GithubData data) {
 		processValue("repository", data.getRepository());
 		processValue("username", data.getUsername());
 		processValue("type", data.getType());
 		processValue("action", data.getAction());
+	}
+
+	@RequestMapping(value = "/data", method = RequestMethod.POST)
+	public void data(GithubData data) {
+		listen(data);
 	}
 
 	@RequestMapping("/count")
@@ -53,7 +58,7 @@ public class GithubDataListener {
 		counter.clear();
 	}
 
-	protected void processValue(String counterName, Object value) {
+	public void processValue(String counterName, Object value) {
 		if ((value instanceof Collection) || ObjectUtils.isArray(value)) {
 			Collection<?> c = (value instanceof Collection) ? (Collection<?>) value
 					: Arrays.asList(ObjectUtils.toObjectArray(value));
