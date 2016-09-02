@@ -5,7 +5,7 @@
 
 	<groupId>org.springframework.github</groupId>
 	<artifactId>github-analytics</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${version}</version>
 	<packaging>jar</packaging>
 
 	<name>analytics</name>
@@ -23,6 +23,8 @@
 		<java.version>1.8</java.version>
 		<spring-cloud-contract.version>1.0.0.BUILD-SNAPSHOT</spring-cloud-contract.version>
 		<spring-cloud-bom.version>Camden.BUILD-SNAPSHOT</spring-cloud-bom.version>
+		<stubrunner.ids>org.springframework.github:github-webhook</stubrunner.ids>
+		<version>0.0.1-SNAPSHOT</version>
 	</properties>
 
 	<dependencies>
@@ -42,11 +44,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-contract-wiremock</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-stream-test-support</artifactId>
 			<scope>test</scope>
 		</dependency>
@@ -55,13 +52,6 @@
 
 	<dependencyManagement>
 		<dependencies>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-contract-dependencies</artifactId>
-				<version>${spring-cloud-contract.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
