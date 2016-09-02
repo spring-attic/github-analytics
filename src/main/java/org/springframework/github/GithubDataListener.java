@@ -24,10 +24,11 @@ import org.springframework.analytics.metrics.FieldValueCounterWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
-import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Component
+@RestController
 public class GithubDataListener {
 
 	@Autowired
@@ -41,6 +42,11 @@ public class GithubDataListener {
 		processValue("username", data.getUsername());
 		processValue("type", data.getType());
 		processValue("action", data.getAction());
+	}
+
+	@RequestMapping("/count")
+	public int count() {
+		return this.counter.size();
 	}
 
 	void clear() {
