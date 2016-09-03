@@ -49,7 +49,7 @@ public class GithubDataListener {
 		listen(data);
 	}
 
-	@RequestMapping("/count")
+	@RequestMapping(value = "/count", method = RequestMethod.GET)
 	public int count() {
 		return this.counter.size();
 	}

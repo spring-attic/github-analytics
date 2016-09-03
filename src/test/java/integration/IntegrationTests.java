@@ -37,8 +37,8 @@ public class IntegrationTests {
 	}
 
 	private Map triggerMessage() {
-		return this.testRestTemplate.getForObject("http://" +
-				this.stubRunnerUrl + "/triggers/hook_created_v2", Map.class);
+		return this.testRestTemplate.postForObject("http://" +
+				this.stubRunnerUrl + "/triggers/hook_created_v2", "", Map.class);
 	}
 
 	private Integer countGithubData() {
