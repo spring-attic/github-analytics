@@ -15,11 +15,14 @@
  */
 package org.springframework.github;
 
+import java.lang.invoke.MethodHandles;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.analytics.metrics.FieldValueCounterWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;
@@ -32,12 +35,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GithubDataListener {
 
+	private static final Log log = LogFactory.getLog(MethodHandles.lookup().lookupClass());
+
 	@Autowired
 	private FieldValueCounterWriter fieldValueCounterWriter;
 	Map<String, Object> counter = new HashMap<>();
 
 	@StreamListener(Sink.INPUT)
 	public void listen(GithubData data) {
+		log.info("Received a new message [" + data + "]");
 		processValue("repository", data.getRepository());
 		processValue("username", data.getUsername());
 		processValue("type", data.getType());
@@ -46,11 +52,13 @@ public class GithubDataListener {
 
 	@RequestMapping(value = "/data", method = RequestMethod.POST)
 	public void data(GithubData data) {
+		log.info("Received a new request [" + data + "]");
 		listen(data);
 	}
 
 	@RequestMapping(value = "/count", method = RequestMethod.GET)
 	public int count() {
+		log.info("Received a new request for size");
 		return this.counter.size();
 	}
 

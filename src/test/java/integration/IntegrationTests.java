@@ -39,6 +39,7 @@ public class IntegrationTests {
 		log.info("Initial count is [" + countOfEntries + "]");
 		ResponseEntity<Map> response = triggerMessage();
 		then(response.getStatusCode().is2xxSuccessful()).isTrue();
+		log.info("Triggered additional message");
 
 		log.info("Awaiting proper count of github data");
 		await().until(() -> countGithubData() > countOfEntries);
@@ -50,7 +51,9 @@ public class IntegrationTests {
 	}
 
 	private Integer countGithubData() {
-		return this.testRestTemplate
+		Integer response = this.testRestTemplate
 				.getForObject("http://" + this.applicationUrl + "/count", Integer.class);
+		log.info("Received response [" + response + "]");
+		return response;
 	}
 }
