@@ -23,7 +23,7 @@ import static org.junit.Assert.assertThat;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = AnalyticsApplication.class)
 @AutoConfigureStubRunner(repositoryRoot = "https://repo.spring.io/snapshot/",
-		ids = {"org.springframework.github:github-webhook"})
+		ids = {"com.example.github:github-webhook"})
 public class AnalyticsApplicationTests {
 
 	@Autowired
