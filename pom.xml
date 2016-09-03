@@ -23,7 +23,7 @@
 		<java.version>1.8</java.version>
 		<spring-cloud-contract.version>1.0.0.BUILD-SNAPSHOT</spring-cloud-contract.version>
 		<spring-cloud-bom.version>Camden.BUILD-SNAPSHOT</spring-cloud-bom.version>
-		<stubrunner.ids>org.springframework.github:github-webhook</stubrunner.ids>
+		<stubrunner.ids>com.example.github:github-webhook</stubrunner.ids>
 		<version>0.0.1-SNAPSHOT</version>
 	</properties>
 
