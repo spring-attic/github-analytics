@@ -37,12 +37,12 @@ public class IntegrationTests {
 	}
 
 	private Map triggerMessage() {
-		return this.testRestTemplate.getForObject(
+		return this.testRestTemplate.getForObject("http://" +
 				this.stubRunnerUrl + "/triggers/hook_created_v2", Map.class);
 	}
 
 	private Integer countGithubData() {
 		return this.testRestTemplate
-				.getForObject(this.applicationUrl + "/count", Integer.class);
+				.getForObject("http://" + this.applicationUrl + "/count", Integer.class);
 	}
 }
