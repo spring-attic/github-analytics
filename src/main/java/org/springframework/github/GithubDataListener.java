@@ -20,10 +20,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.analytics.metrics.FieldValueCounterWriter;
+import org.springframework.analytics.metrics.FieldValueCounterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
@@ -37,9 +38,9 @@ public class GithubDataListener {
 
 	private static final Log log = LogFactory.getLog(MethodHandles.lookup().lookupClass());
 
-	@Autowired
-	private FieldValueCounterWriter fieldValueCounterWriter;
+	@Autowired private FieldValueCounterRepository fieldValueCounterRepository;
 	Map<String, Object> counter = new HashMap<>();
+	AtomicInteger stats = new AtomicInteger();
 
 	@StreamListener(Sink.INPUT)
 	public void listen(GithubData data) {
@@ -48,6 +49,7 @@ public class GithubDataListener {
 		processValue("username", data.getUsername());
 		processValue("type", data.getType());
 		processValue("action", data.getAction());
+		stats.incrementAndGet();
 	}
 
 	@RequestMapping(value = "/data", method = RequestMethod.POST)
@@ -58,8 +60,9 @@ public class GithubDataListener {
 
 	@RequestMapping(value = "/count", method = RequestMethod.GET)
 	public int count() {
-		log.info("Received a new request for size");
-		return this.counter.size();
+		int size = this.stats.get();
+		log.info("Size of counters equals [" + size + "]");
+		return size;
 	}
 
 	void clear() {
@@ -71,11 +74,11 @@ public class GithubDataListener {
 			Collection<?> c = (value instanceof Collection) ? (Collection<?>) value
 					: Arrays.asList(ObjectUtils.toObjectArray(value));
 			for (Object val : c) {
-				this.fieldValueCounterWriter.increment(counterName, val.toString(), 1.0);
+				this.fieldValueCounterRepository.increment(counterName, val.toString(), 1.0);
 			}
 		}
 		else if (value != null) {
-			this.fieldValueCounterWriter.increment(counterName, value.toString(), 1.0);
+			this.fieldValueCounterRepository.increment(counterName, value.toString(), 1.0);
 		}
 		counter.put(counterName, value);
 	}

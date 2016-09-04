@@ -1,5 +1,8 @@
 package org.springframework.github;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,9 +17,7 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.MimeTypeUtils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -50,16 +51,22 @@ public class AnalyticsApplicationTests {
 
 	@Test
 	public void testWithV1StubData() {
+		int initialSize = this.githubDataListener.stats.get();
+
 		this.stubTrigger.trigger("issue_created_v1");
 
 		assertThat(this.githubDataListener.counter.isEmpty(), is(false));
+		assertThat(this.githubDataListener.stats.get(), is(greaterThan(initialSize)));
 	}
 
 	@Test
 	public void testWithV2StubData() {
+		int initialSize = this.githubDataListener.stats.get();
+
 		this.stubTrigger.trigger("issue_created_v2");
 
 		assertThat(this.githubDataListener.counter.isEmpty(), is(false));
+		assertThat(this.githubDataListener.stats.get(), is(greaterThan(initialSize)));
 	}
 
 }
