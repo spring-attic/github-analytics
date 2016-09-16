@@ -15,45 +15,17 @@
  */
 package org.springframework.github;
 
+import java.util.List;
+
 public class GithubData {
 
-	private String username;
+	private List<GithubDatum> data;
 
-	private String repository;
-
-	private String type = "unknown";
-
-	private String action = "unknown";
-
-	public String getUsername() {
-		return this.username;
+	public List<GithubDatum> getData() {
+		return data;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getRepository() {
-		return this.repository;
-	}
-
-	public void setRepository(String repository) {
-		this.repository = repository;
-	}
-
-	public String getType() {
-		return this.type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getAction() {
-		return this.action;
-	}
-
-	public void setAction(String action) {
-		this.action = action;
+	public void setData(List<GithubDatum> data) {
+		this.data = data;
 	}
 }

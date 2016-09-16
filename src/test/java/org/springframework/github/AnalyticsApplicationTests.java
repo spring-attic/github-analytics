@@ -1,8 +1,5 @@
 package org.springframework.github;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,13 +14,14 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.MimeTypeUtils;
 
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import static org.assertj.core.api.BDDAssertions.then;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = AnalyticsApplication.class)
-@AutoConfigureStubRunner(repositoryRoot = "https://repo.spring.io/snapshot/",
+@AutoConfigureStubRunner(repositoryRoot = "https://repo.spring.io/milestone/",
 		ids = {"com.example.github:github-webhook"})
 public class AnalyticsApplicationTests {
 
@@ -40,7 +38,7 @@ public class AnalyticsApplicationTests {
 
 	@Test
 	public void testWithMarshalledPojo() throws JsonProcessingException {
-		GithubData data = new GithubData();
+		GithubDatum data = new GithubDatum();
 		data.setRepository("spring-framework");
 		data.setUsername("rossen");
 		String json = new ObjectMapper().writeValueAsString(data);
@@ -55,8 +53,8 @@ public class AnalyticsApplicationTests {
 
 		this.stubTrigger.trigger("issue_created_v1");
 
-		assertThat(this.githubDataListener.counter.isEmpty(), is(false));
-		assertThat(this.githubDataListener.stats.get(), is(greaterThan(initialSize)));
+		then(this.githubDataListener.counter).isNotEmpty();
+		then(this.githubDataListener.stats.get()).isGreaterThan(initialSize);
 	}
 
 	@Test
@@ -65,8 +63,18 @@ public class AnalyticsApplicationTests {
 
 		this.stubTrigger.trigger("issue_created_v2");
 
-		assertThat(this.githubDataListener.counter.isEmpty(), is(false));
-		assertThat(this.githubDataListener.stats.get(), is(greaterThan(initialSize)));
+		then(this.githubDataListener.counter).isNotEmpty();
+		then(this.githubDataListener.stats.get()).isGreaterThan(initialSize);
+	}
+
+	@Test
+	public void testWithInMemoryServiceDiscovery() {
+		int initialSize = this.githubDataListener.stats.get();
+
+		GithubData data = this.githubDataListener.data();
+
+		then(this.githubDataListener.counter).isNotEmpty();
+		then(this.githubDataListener.stats.get()).isGreaterThan(initialSize);
 	}
 
 }

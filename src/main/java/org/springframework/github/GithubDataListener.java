@@ -25,25 +25,34 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.analytics.metrics.FieldValueCounterRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class GithubDataListener {
 
 	private static final Log log = LogFactory.getLog(MethodHandles.lookup().lookupClass());
 
-	@Autowired private FieldValueCounterRepository fieldValueCounterRepository;
+	private final FieldValueCounterRepository fieldValueCounterRepository;
+	private final RestTemplate restTemplate;
+
 	Map<String, Object> counter = new HashMap<>();
 	AtomicInteger stats = new AtomicInteger();
 
+	public GithubDataListener(FieldValueCounterRepository fieldValueCounterRepository,
+			RestTemplate restTemplate) {
+		this.fieldValueCounterRepository = fieldValueCounterRepository;
+		this.restTemplate = restTemplate;
+	}
+
 	@StreamListener(Sink.INPUT)
-	public void listen(GithubData data) {
+	public void listen(GithubDatum data) {
 		log.info("Received a new message [" + data + "]");
 		processValue("repository", data.getRepository());
 		processValue("username", data.getUsername());
@@ -52,10 +61,12 @@ public class GithubDataListener {
 		stats.incrementAndGet();
 	}
 
-	@RequestMapping(value = "/data", method = RequestMethod.POST)
-	public void data(GithubData data) {
-		log.info("Received a new request [" + data + "]");
-		listen(data);
+	@GetMapping(value = "/data")
+	public GithubData data() {
+		log.info("Sending request to github-webook");
+		GithubData data = restTemplate.getForObject("http://github-webhook/", GithubData.class);
+		data.getData().forEach(this::listen);
+		return data;
 	}
 
 	@RequestMapping(value = "/count", method = RequestMethod.GET)
