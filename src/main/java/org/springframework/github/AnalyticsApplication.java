@@ -23,8 +23,12 @@ public class AnalyticsApplication {
 	}
 
 	@Bean GithubDataListener githubDataListener(FieldValueCounterRepository fieldValueCounterRepository,
-			@LoadBalanced RestTemplate restTemplate) {
-		return new GithubDataListener(fieldValueCounterRepository, restTemplate);
+			GithubDataListener.WebhookService webhookService) {
+		return new GithubDataListener(fieldValueCounterRepository, webhookService);
+	}
+
+	@Bean GithubDataListener.WebhookService webhookService(final @LoadBalanced RestTemplate restTemplate) {
+		return () -> restTemplate.getForObject("http://github-webhook/", GithubData.class);
 	}
 
 	@Bean

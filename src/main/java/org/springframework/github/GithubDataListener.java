@@ -32,7 +32,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class GithubDataListener {
@@ -40,15 +39,15 @@ public class GithubDataListener {
 	private static final Log log = LogFactory.getLog(MethodHandles.lookup().lookupClass());
 
 	private final FieldValueCounterRepository fieldValueCounterRepository;
-	private final RestTemplate restTemplate;
+	private final GithubDataListener.WebhookService webhookService;
 
 	Map<String, Object> counter = new HashMap<>();
 	AtomicInteger stats = new AtomicInteger();
 
 	public GithubDataListener(FieldValueCounterRepository fieldValueCounterRepository,
-			RestTemplate restTemplate) {
+			GithubDataListener.WebhookService webhookService) {
 		this.fieldValueCounterRepository = fieldValueCounterRepository;
-		this.restTemplate = restTemplate;
+		this.webhookService = webhookService;
 	}
 
 	@StreamListener(Sink.INPUT)
@@ -64,7 +63,7 @@ public class GithubDataListener {
 	@GetMapping(value = "/data")
 	public GithubData data() {
 		log.info("Sending request to github-webook");
-		GithubData data = restTemplate.getForObject("http://github-webhook/", GithubData.class);
+		GithubData data = webhookService.data();
 		data.getData().forEach(this::listen);
 		return data;
 	}
@@ -94,4 +93,7 @@ public class GithubDataListener {
 		counter.put(counterName, value);
 	}
 
+	public interface WebhookService {
+		GithubData data();
+	}
 }

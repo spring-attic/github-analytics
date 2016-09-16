@@ -25,6 +25,16 @@ public class GithubDatum {
 
 	private String action = "unknown";
 
+	public GithubDatum(String username, String repository, String type, String action) {
+		this.username = username;
+		this.repository = repository;
+		this.type = type;
+		this.action = action;
+	}
+
+	public GithubDatum() {
+	}
+
 	public String getUsername() {
 		return this.username;
 	}
