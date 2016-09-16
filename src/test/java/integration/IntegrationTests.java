@@ -65,8 +65,8 @@ public class IntegrationTests {
 	}
 
 	private ResponseEntity<GithubData> callData() {
-		return this.testRestTemplate.postForEntity("http://" +
-				this.applicationUrl + "/data", "", GithubData.class);
+		return this.testRestTemplate.getForEntity("http://" +
+				this.applicationUrl + "/data", GithubData.class);
 	}
 
 	private Integer countGithubData() {
