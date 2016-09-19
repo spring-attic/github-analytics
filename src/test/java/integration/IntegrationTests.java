@@ -10,10 +10,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.github.GithubData;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.RestTemplate;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.awaitility.Awaitility.await;
@@ -32,7 +32,7 @@ public class IntegrationTests {
 	@Value("${stubrunner.url}") String stubRunnerUrl;
 	@Value("${application.url}") String applicationUrl;
 
-	TestRestTemplate testRestTemplate = new TestRestTemplate();
+	RestTemplate restTemplate = new RestTemplate();
 
 	@Test
 	public void shouldStoreAMessageWhenGithubDataWasReceivedViaMessaging() {
@@ -60,17 +60,17 @@ public class IntegrationTests {
 	}
 
 	private ResponseEntity<Map> triggerMessage() {
-		return this.testRestTemplate.postForEntity("http://" +
+		return this.restTemplate.postForEntity("http://" +
 				this.stubRunnerUrl + "/triggers/hook_created_v2", "", Map.class);
 	}
 
 	private ResponseEntity<GithubData> callData() {
-		return this.testRestTemplate.getForEntity("http://" +
+		return this.restTemplate.getForEntity("http://" +
 				this.applicationUrl + "/data", GithubData.class);
 	}
 
 	private Integer countGithubData() {
-		Integer response = this.testRestTemplate
+		Integer response = this.restTemplate
 				.getForObject("http://" + this.applicationUrl + "/count", Integer.class);
 		log.info("Received response [" + response + "]");
 		return response;

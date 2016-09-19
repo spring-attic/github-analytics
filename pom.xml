@@ -132,6 +132,13 @@
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.cloud</groupId>
+					<artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
+					<scope>compile</scope>
+				</dependency>
+			</dependencies>
 			<build>
 				<plugins>
 					<plugin>
