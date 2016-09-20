@@ -1,4 +1,4 @@
-package integration;
+package smoke;
 
 import java.lang.invoke.MethodHandles;
 import java.util.Map;

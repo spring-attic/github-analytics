@@ -128,17 +128,10 @@
 			</build>
 		</profile>
 		<profile>
-			<id>integration</id>
+			<id>smoke</id>
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
-			<dependencies>
-				<dependency>
-					<groupId>org.springframework.cloud</groupId>
-					<artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
-					<scope>compile</scope>
-				</dependency>
-			</dependencies>
 			<build>
 				<plugins>
 					<plugin>
@@ -147,8 +140,8 @@
 						<version>2.18.1</version>
 						<configuration>
 							<includes>
-								<include>integration/**/*Tests.java</include>
-								<include>integration/**/*Test.java</include>
+								<include>smoke/**/*Tests.java</include>
+								<include>smoke/**/*Test.java</include>
 							</includes>
 						</configuration>
 					</plugin>
