@@ -25,8 +25,8 @@
 		<spring-cloud-bom.version>Camden.BUILD-SNAPSHOT</spring-cloud-bom.version>
 		<stubrunner.ids>com.example.github:github-webhook</stubrunner.ids>
 		<version>0.0.1-SNAPSHOT</version>
-		<distribution.management.release.id>repo.spring.io</distribution.management.release.id>
-		<distribution.management.release.url>https://repo.spring.io/libs-milestone-local</distribution.management.release.url>
+		<distribution.management.release.id>artifactory-local</distribution.management.release.id>
+		<distribution.management.release.url>https://localhost:8081/libs-release-local</distribution.management.release.url>
 	</properties>
 
 	<dependencies>
