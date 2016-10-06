@@ -5,7 +5,7 @@
 
 	<groupId>com.example.github</groupId>
 	<artifactId>github-analytics</artifactId>
-	<version>${version}</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>analytics</name>
@@ -24,7 +24,6 @@
 		<spring-cloud-contract.version>1.0.0.BUILD-SNAPSHOT</spring-cloud-contract.version>
 		<spring-cloud-bom.version>Camden.BUILD-SNAPSHOT</spring-cloud-bom.version>
 		<stubrunner.ids>com.example.github:github-webhook</stubrunner.ids>
-		<version>0.0.1-SNAPSHOT</version>
 		<distribution.management.release.id>artifactory-local</distribution.management.release.id>
 		<distribution.management.release.url>https://localhost:8081/libs-release-local</distribution.management.release.url>
 	</properties>
