@@ -11,6 +11,7 @@ import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.MimeTypeUtils;
 
@@ -21,8 +22,8 @@ import static org.assertj.core.api.BDDAssertions.then;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = AnalyticsApplication.class)
-@AutoConfigureStubRunner(repositoryRoot = "https://repo.spring.io/milestone/",
-		ids = {"com.example.github:github-webhook"})
+@AutoConfigureStubRunner(ids = {"com.example.github:github-webhook"})
+@ActiveProfiles("test")
 public class AnalyticsApplicationTests {
 
 	@Autowired

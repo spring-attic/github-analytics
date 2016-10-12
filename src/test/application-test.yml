@@ -1,0 +1,1 @@
+stubrunner.repositoryRoot: ${REPO_WITH_JARS:https://repo.spring.io/milestone/}
