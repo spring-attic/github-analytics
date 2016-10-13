@@ -1,6 +1,0 @@
-spring:
-  application.name: github-analytics
-  cloud.stream.bindings.input.destination: messages
-server.port: ${PORT:8081}
-# Not used at runtime but needed to validate the counter properties bean:
-field-value-counter.fieldName: test

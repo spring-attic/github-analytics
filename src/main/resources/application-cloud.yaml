@@ -1,2 +1,0 @@
-# From command line
-spring.rabbitmq.addresses: ${vcap.services.github-rabbitmq.credentials.uri}
