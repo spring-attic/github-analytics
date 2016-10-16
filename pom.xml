@@ -171,6 +171,9 @@
 		</profile>
 		<profile>
 			<id>spring</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
 			<repositories>
 				<repository>
 					<id>spring-snapshots</id>
