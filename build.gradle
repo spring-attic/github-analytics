@@ -7,6 +7,7 @@ apply from: 'gradle/pipeline.gradle'
 buildscript {
 	repositories {
 		mavenCentral()
+		mavenLocal()
 	}
 	dependencies {
 		classpath "org.springframework.boot:spring-boot-gradle-plugin:1.4.1.RELEASE"
@@ -26,6 +27,7 @@ ext {
 
 repositories {
 	mavenCentral()
+	mavenLocal()
 	if (getProp("M2_LOCAL")) {
 		maven {
 			url uri(getProp("M2_LOCAL"))
