@@ -86,7 +86,6 @@ publishing {
 	publications {
 		mavenJava(MavenPublication) {
 			artifactId project.name
-			artifact verifierStubsJar
 			from components.java
 		}
 	}
