@@ -1,3 +1,9 @@
+apply plugin: 'groovy'
+apply plugin: 'spring-boot'
+apply plugin: 'spring-cloud-contract'
+apply plugin: 'maven-publish'
+apply from: 'gradle/pipeline.gradle'
+
 buildscript {
 	repositories {
 		mavenCentral()
@@ -11,14 +17,21 @@ buildscript {
 group = 'com.example.github'
 version = getProp('newVersion') ?: '0.0.1-SNAPSHOT'
 
-repositories {
-	mavenCentral()
+ext {
+	projectGroupId = project.group
+	projectArtifactId = project.name
+	projectVersion = project.version
+	stubrunnerIds = 'com.example.github:github-webhook'
 }
 
-apply plugin: 'groovy'
-apply plugin: 'spring-boot'
-apply plugin: 'spring-cloud-contract'
-apply plugin: 'maven-publish'
+repositories {
+	mavenCentral()
+	if (getProp("M2_LOCAL")) {
+		maven {
+			url uri(getProp("M2_LOCAL"))
+		}
+	}
+}
 
 dependencyManagement {
 	imports {
@@ -42,37 +55,6 @@ dependencies {
 	testCompile ('org.awaitility:awaitility:2.0.0')
 }
 
-test {
-	description = "Task to run unit and integration tests"
-	testLogging {
-		exceptionFormat = 'full'
-	}
-	jvmArgs = systemPropsFromGradle()
-	include 'org/springframework/**'
-}
-
-task smoke(type: Test) {
-	description = "Task to run smoke tests"
-	testLogging {
-		exceptionFormat = 'full'
-	}
-	jvmArgs = systemPropsFromGradle()
-	include 'smoke/**'
-}
-
-task e2e(type: Test) {
-	description = "Task to run end to end tests"
-	testLogging {
-		exceptionFormat = 'full'
-	}
-	jvmArgs = systemPropsFromGradle()
-	include 'e2e/**'
-}
-
-task deploy(dependsOn: 'publish') {
-	description = "Abstraction over publishing artifacts to Artifactory / Nexus"
-}
-
 publishing {
 	repositories {
 		maven {
@@ -91,10 +73,6 @@ publishing {
 	}
 }
 
-private List<String> systemPropsFromGradle() {
-	return project.gradle.startParameter.systemPropertiesArgs.entrySet().collect { "-D${it.key}=${it.value}" }
-}
-
 task wrapper(type: Wrapper) {
     gradleVersion = '2.14.1'
 }
@@ -102,3 +80,5 @@ task wrapper(type: Wrapper) {
 String getProp(String propName) {
 	return hasProperty(propName) ? (getProperty(propName) ?: System.properties[propName]) : System.properties[propName]
 }
+
+
