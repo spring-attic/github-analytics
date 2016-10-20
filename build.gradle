@@ -62,7 +62,7 @@ publishing {
 		maven {
 			url getProp('REPO_WITH_JARS') ?: 'http://localhost:8081/artifactory/libs-release-local'
 			credentials {
-				username getProp('M2_SETTINGS_REPO_USERNAME') ?: 'artifactory'
+				username getProp('M2_SETTINGS_REPO_USERNAME') ?: 'admin'
 				password getProp('M2_SETTINGS_REPO_PASSWORD') ?: 'password'
 			}
 		}
