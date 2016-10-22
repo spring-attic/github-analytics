@@ -30,7 +30,7 @@ repositories {
 	mavenLocal()
 	if (getProp("M2_LOCAL")) {
 		maven {
-			url uri(getProp("M2_LOCAL"))
+			url getProp("M2_LOCAL")
 		}
 	}
 }
