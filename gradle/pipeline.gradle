@@ -57,5 +57,7 @@ stubIds.description = "Task to retrieve Stub Runner IDS"
 }
 
 private List<String> systemPropsFromGradle() {
-    return project.gradle.startParameter.systemPropertiesArgs.entrySet().collect { "-D${it.key}=${it.value}" }
+    List<String> props = project.gradle.startParameter.systemPropertiesArgs.entrySet().collect { "-D${it.key}=${it.value}" }
+    println "Passing properties [${props}]"
+    return props
 }

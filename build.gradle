@@ -80,7 +80,9 @@ task wrapper(type: Wrapper) {
 }
 
 String getProp(String propName) {
-	return hasProperty(propName) ? (getProperty(propName) ?: System.properties[propName]) : System.properties[propName]
+	return hasProperty(propName) ?
+			(getProperty(propName) ?: System.properties[propName]) : System.properties[propName] ?:
+			System.getenv(propName)
 }
 
 
