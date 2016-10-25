@@ -5,7 +5,7 @@ test {
     testLogging {
         exceptionFormat = 'full'
     }
-    jvmArgs = systemPropsFromGradle()
+    systemProperties = System.properties
     exclude 'smoke/**'
     exclude 'e2e/**'
 }
@@ -15,7 +15,7 @@ task smoke(type: Test) {
     testLogging {
         exceptionFormat = 'full'
     }
-    jvmArgs = systemPropsFromGradle()
+    systemProperties = System.properties
     include 'smoke/**'
 }
 
@@ -24,7 +24,7 @@ task e2e(type: Test) {
     testLogging {
         exceptionFormat = 'full'
     }
-    jvmArgs = systemPropsFromGradle()
+    systemProperties = System.properties
     include 'e2e/**'
 }
 
@@ -54,10 +54,4 @@ stubIds.description = "Task to retrieve Stub Runner IDS"
 
 [test, smoke, e2e, deploy, groupId, artifactId, currentVersion, stubIds].each {
     it.group = "Pipeline"
-}
-
-private List<String> systemPropsFromGradle() {
-    List<String> props = project.gradle.startParameter.systemPropertiesArgs.entrySet().collect { "-D${it.key}=${it.value}" }
-    println "Passing properties [${props}]"
-    return props
 }
