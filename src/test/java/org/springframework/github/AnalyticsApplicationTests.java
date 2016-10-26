@@ -22,6 +22,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = AnalyticsApplication.class)
+//TODO: Sth's wrong here
 @AutoConfigureStubRunner(
 		repositoryRoot = "${REPO_WITH_JARS:http://localhost:8081/artifactory/libs-release-local}",
 		ids = {"com.example.github:github-webhook"})
