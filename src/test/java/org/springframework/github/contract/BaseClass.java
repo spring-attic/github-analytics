@@ -24,7 +24,7 @@ import com.jayway.restassured.module.mockmvc.RestAssuredMockMvc;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = { BaseClass.Config.class, AnalyticsApplication.class })
 @AutoConfigureMessageVerifier
-public class BaseClass {
+public abstract class BaseClass {
 
 	@Autowired GithubDataListener githubDataListener;
 

@@ -1,1 +1,1 @@
-stubrunner.repositoryRoot: ${REPO_WITH_JARS:https://repo.spring.io/milestone/}
+stubrunner.repositoryRoot: ${REPO_WITH_JARS:http://localhost:8081/artifactory/libs-release-local}

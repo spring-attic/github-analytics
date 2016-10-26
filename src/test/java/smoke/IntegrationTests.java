@@ -38,6 +38,7 @@ public class IntegrationTests {
 	public void shouldStoreAMessageWhenGithubDataWasReceivedViaMessaging() {
 		final Integer countOfEntries = countGithubData();
 		log.info("Initial count is [" + countOfEntries + "]");
+		log.info("Triggering message by sending request to [" + stubRunnerUrl + "]");
 		ResponseEntity<Map> response = triggerMessage();
 		then(response.getStatusCode().is2xxSuccessful()).isTrue();
 		log.info("Triggered additional message");
@@ -50,6 +51,7 @@ public class IntegrationTests {
 	public void shouldStoreAMessageWhenGithubDataWasReceivedFromServiceDiscovery() {
 		final Integer countOfEntries = countGithubData();
 		log.info("Initial count is [" + countOfEntries + "]");
+		log.info("Sending request to [" + applicationUrl + "]");
 
 		ResponseEntity<GithubData> response = callData();
 		then(response.getStatusCode().is2xxSuccessful()).isTrue();

@@ -1,0 +1,88 @@
+apply plugin: 'groovy'
+apply plugin: 'spring-boot'
+apply plugin: 'spring-cloud-contract'
+apply plugin: 'maven-publish'
+apply from: 'gradle/pipeline.gradle'
+
+buildscript {
+	repositories {
+		mavenCentral()
+		mavenLocal()
+	}
+	dependencies {
+		classpath "org.springframework.boot:spring-boot-gradle-plugin:1.4.1.RELEASE"
+		classpath "org.springframework.cloud:spring-cloud-contract-gradle-plugin:1.0.0.RELEASE"
+	}
+}
+
+group = 'com.example.github'
+version = getProp('newVersion') ?: '0.0.1-SNAPSHOT'
+
+ext {
+	projectGroupId = project.group
+	projectArtifactId = project.name
+	projectVersion = project.version
+	stubrunnerIds = 'com.example.github:github-webhook'
+}
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+	if (getProp("M2_LOCAL")) {
+		maven {
+			url getProp("M2_LOCAL")
+		}
+	}
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:$BOM_VERSION"
+	}
+}
+
+contracts {
+	baseClassForTests = 'org.springframework.github.contract.BaseClass'
+}
+
+dependencies {
+	compile ('org.springframework.analytics:spring-analytics:1.0.0.RELEASE')
+	compile ('org.springframework.cloud:spring-cloud-starter-eureka')
+	compile ('org.hibernate:hibernate-validator')
+	compile ('org.springframework.cloud:spring-cloud-starter-stream-rabbit')
+
+	testCompile ('org.springframework.cloud:spring-cloud-starter-contract-stub-runner')
+	testCompile ('org.springframework.cloud:spring-cloud-stream-test-support')
+	testCompile ('org.springframework.cloud:spring-cloud-starter-contract-verifier')
+	testCompile ('org.awaitility:awaitility:2.0.0')
+}
+
+publishing {
+	repositories {
+		maven {
+			url getProp('REPO_WITH_JARS') ?: 'http://localhost:8081/artifactory/libs-release-local'
+			credentials {
+				username getProp('M2_SETTINGS_REPO_USERNAME') ?: 'admin'
+				password getProp('M2_SETTINGS_REPO_PASSWORD') ?: 'password'
+			}
+		}
+	}
+	publications {
+		mavenJava(MavenPublication) {
+			artifactId project.name
+			from components.java
+		}
+	}
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.14.1'
+}
+
+String getProp(String propName) {
+	return hasProperty(propName) ?
+			(getProperty(propName) ?: System.properties[propName]) : System.properties[propName] ?:
+			System.getenv(propName)
+}
+
+

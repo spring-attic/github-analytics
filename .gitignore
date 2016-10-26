@@ -23,3 +23,5 @@ dump.rdb
 .apt_generated
 artifacts
 *.versionsBackup
+.gradle
+*.log
