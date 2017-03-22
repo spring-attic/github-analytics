@@ -31,13 +31,7 @@ public abstract class BaseClass {
 	@Before
 	public void setup() {
 		RestAssuredMockMvc.standaloneSetup(githubDataListener);
-		if (this.githubDataListener.count() < 5) {
-			githubDataListener.processValue("foo1", 1);
-			githubDataListener.processValue("foo2", 2);
-			githubDataListener.processValue("foo3", 3);
-			githubDataListener.processValue("foo4", 4);
-			githubDataListener.processValue("foo5", 5);
-		}
+		githubDataListener.setStats(5);
 	}
 
 	@Configuration

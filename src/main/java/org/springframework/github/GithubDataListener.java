@@ -96,4 +96,8 @@ public class GithubDataListener {
 	public interface WebhookService {
 		GithubData data();
 	}
+
+	public void setStats(int stats) {
+		this.stats.set(stats);
+	}
 }

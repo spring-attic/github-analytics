@@ -1,5 +1,5 @@
 apply plugin: 'groovy'
-apply plugin: 'spring-boot'
+apply plugin: 'org.springframework.boot'
 apply plugin: 'spring-cloud-contract'
 apply plugin: 'maven-publish'
 apply from: 'gradle/pipeline.gradle'
@@ -10,8 +10,8 @@ buildscript {
 		mavenLocal()
 	}
 	dependencies {
-		classpath "org.springframework.boot:spring-boot-gradle-plugin:1.4.1.RELEASE"
-		classpath "org.springframework.cloud:spring-cloud-contract-gradle-plugin:1.0.0.RELEASE"
+		classpath "org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE"
+		classpath "org.springframework.cloud:spring-cloud-contract-gradle-plugin:1.0.4.RELEASE"
 	}
 }
 
@@ -76,7 +76,7 @@ publishing {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.14.1'
+    gradleVersion = '3.4.1'
 }
 
 String getProp(String propName) {
