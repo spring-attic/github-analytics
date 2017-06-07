@@ -41,8 +41,24 @@ dependencyManagement {
 	}
 }
 
-contracts {
-	baseClassForTests = 'org.springframework.github.contract.BaseClass'
+if (gradle.startParameter.taskRequests.any { it.args.contains("apiCompatibility") }) {
+	contracts {
+		baseClassForTests = 'org.springframework.github.contract.BaseClass'
+		basePackageForTests = 'com.example'
+		contractsRepositoryUrl = getProp('REPO_WITH_JARS') ?: 'http://localhost:8081/artifactory/libs-release-local'
+		contractsPath = "/"
+		contractDependency {
+			groupId = project.group
+			artifactId = project.name
+			classifier = "stubs"
+			version = getProp("stubsProductionVersion")
+		}
+	}
+} else {
+	contracts {
+		baseClassForTests = 'org.springframework.github.contract.BaseClass'
+		basePackageForTests = 'com.example.contracts'
+	}
 }
 
 dependencies {

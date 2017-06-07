@@ -19,6 +19,15 @@ task smoke(type: Test) {
     include 'smoke/**'
 }
 
+task apiCompatibility(type: Test) {
+    description = "Task to run api compatbility tests"
+    testLogging {
+        exceptionFormat = 'full'
+    }
+    jvmArgs = systemPropsFromGradle()
+    include '**/com/example/contracts/**'
+}
+
 task e2e(type: Test) {
     description = "Task to run end to end tests"
     testLogging {
@@ -60,7 +69,7 @@ task stubIds {
 }
 stubIds.description = "Task to retrieve Stub Runner IDS"
 
-[test, smoke, e2e, deploy, groupId, artifactId, currentVersion, stubIds].each {
+[test, apiCompatibility, smoke, e2e, deploy, groupId, artifactId, currentVersion, stubIds].each {
     it.group = "Pipeline"
 }
 
