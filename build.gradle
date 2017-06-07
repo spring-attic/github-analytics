@@ -44,7 +44,7 @@ dependencyManagement {
 if (gradle.startParameter.taskRequests.any { it.args.contains("apiCompatibility") }) {
 	contracts {
 		baseClassForTests = 'org.springframework.github.contract.BaseClass'
-		basePackageForTests = 'com.example'
+		basePackageForTests = 'com.example.contracttests'
 		contractsRepositoryUrl = getProp('REPO_WITH_JARS') ?: 'http://localhost:8081/artifactory/libs-release-local'
 		contractsPath = "/"
 		contractDependency {
@@ -57,7 +57,7 @@ if (gradle.startParameter.taskRequests.any { it.args.contains("apiCompatibility"
 } else {
 	contracts {
 		baseClassForTests = 'org.springframework.github.contract.BaseClass'
-		basePackageForTests = 'com.example.contracts'
+		basePackageForTests = 'com.example.contracttests'
 	}
 }
 

@@ -25,7 +25,7 @@ task apiCompatibility(type: Test) {
         exceptionFormat = 'full'
     }
     jvmArgs = systemPropsFromGradle()
-    include '**/com/example/contracts/**'
+    include '**/contracttests/**'
 }
 
 task e2e(type: Test) {
