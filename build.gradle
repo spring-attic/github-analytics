@@ -51,7 +51,7 @@ if (gradle.startParameter.taskRequests.any { it.args.contains("apiCompatibility"
 			groupId = project.group
 			artifactId = project.name
 			classifier = "stubs"
-			version = getProp("stubsProductionVersion")
+			version = getProp("latestProductionVersion")
 		}
 	}
 } else {
