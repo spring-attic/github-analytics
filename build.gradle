@@ -10,8 +10,8 @@ buildscript {
 		mavenLocal()
 	}
 	dependencies {
-		classpath "org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE"
-		classpath "org.springframework.cloud:spring-cloud-contract-gradle-plugin:1.0.4.RELEASE"
+		classpath "org.springframework.boot:spring-boot-gradle-plugin:1.5.3.RELEASE"
+		classpath "org.springframework.cloud:spring-cloud-contract-gradle-plugin:1.1.1.RELEASE"
 	}
 }
 
@@ -76,7 +76,7 @@ publishing {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.4.1'
+    gradleVersion = '3.5'
 }
 
 String getProp(String propName) {
