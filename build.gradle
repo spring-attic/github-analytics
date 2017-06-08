@@ -43,7 +43,7 @@ dependencyManagement {
 
 if (gradle.startParameter.taskRequests.any { it.args.contains("apiCompatibility") }) {
 	contracts {
-		baseClassForTests = 'org.springframework.github.contract.BaseClass'
+		baseClassForTests = 'org.springframework.github.BaseClass'
 		basePackageForTests = 'com.example.contracttests'
 		contractsRepositoryUrl = getProp('REPO_WITH_JARS') ?: 'http://localhost:8081/artifactory/libs-release-local'
 		contractsPath = "/"
@@ -56,7 +56,7 @@ if (gradle.startParameter.taskRequests.any { it.args.contains("apiCompatibility"
 	}
 } else {
 	contracts {
-		baseClassForTests = 'org.springframework.github.contract.BaseClass'
+		baseClassForTests = 'org.springframework.github.BaseClass'
 		basePackageForTests = 'com.example.contracttests'
 	}
 }
@@ -66,6 +66,17 @@ dependencies {
 	compile ('org.springframework.cloud:spring-cloud-starter-eureka')
 	compile ('org.hibernate:hibernate-validator')
 	compile ('org.springframework.cloud:spring-cloud-starter-stream-rabbit')
+	compile ('org.springframework.boot:spring-boot-starter-actuator')
+	compile ('org.flywaydb:flyway-core')
+	compile ('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile ('org.springframework.boot:spring-boot-starter-web')
+	compile ('com.h2database:h2')
+	compile ('mysql:mysql-connector-java')
+	// Prometheus
+	compile ("io.prometheus:simpleclient_hotspot:${prometheusVersion}")
+	compile ("io.prometheus:simpleclient_servlet:${prometheusVersion}")
+	compile ("io.prometheus:simpleclient:${prometheusVersion}")
+	compile ("io.prometheus:simpleclient_spring_boot:${prometheusVersion}")
 
 	testCompile ('org.springframework.cloud:spring-cloud-starter-contract-stub-runner')
 	testCompile ('org.springframework.cloud:spring-cloud-stream-test-support')

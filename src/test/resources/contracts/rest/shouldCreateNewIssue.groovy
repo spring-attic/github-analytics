@@ -2,11 +2,14 @@ package rest
 
 org.springframework.cloud.contract.spec.Contract.make {
 	request {
-		method 'GET'
-		url '/count'
+		method POST()
+		url '/issues'
+		body(
+				userName: 'foo',
+				repository: 'spring-cloud/bar'
+		)
 	}
 	response {
 		status 200
-		body 5
 	}
 }

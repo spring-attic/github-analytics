@@ -1,10 +1,8 @@
-# From command line
-spring.rabbitmq.addresses: ${vcap.services.github-rabbitmq.credentials.uri}
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: ${vcap.services.github-eureka.credentials.uri:http://127.0.0.1:8761}/eureka/
-  instance:
-    hostname: ${APPLICATION_DOMAIN}
-    nonSecurePort: 80
+spring:
+  rabbitmq.addresses: ${vcap.services.github-rabbitmq.credentials.uri}
+  jpa.hibernate.ddl-auto: none
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.99.100/github?autoReconnect=true&useSSL=false
+    username: root
+    password: test

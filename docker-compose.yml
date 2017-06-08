@@ -1,7 +1,10 @@
-redis:
-  image: redis
+mysql:
+  image: mysql
   ports:
-    - "6379:6379"
+    - "3306:3306"
+  environment:
+    - MYSQL_ROOT_PASSWORD=root
+    - MYSQL_DATABASE=test
 rabbitmq:
   image: rabbitmq:management
   ports:
