@@ -1,6 +1,9 @@
 package e2e;
 
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
+import java.net.URI;
+import java.nio.file.Files;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -9,7 +12,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.github.GithubData;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
@@ -29,16 +34,17 @@ public class E2eTests {
 	private static final Log log = LogFactory.getLog(MethodHandles.lookup().lookupClass());
 
 	@Value("${application.url}") String applicationUrl;
+	@Value("${classpath:json/issue-created.json}") Resource json;
 
 	RestTemplate restTemplate = new RestTemplate();
 
 	@Test
-	@SuppressWarnings("Duplicates")
-	public void shouldStoreAMessageWhenGithubDataWasReceivedFromServiceDiscovery() {
+	public void shouldStoreAMessageWhenGithubDataWasReceivedFromServiceDiscovery()
+			throws IOException {
 		final Integer countOfEntries = countGithubData();
 		log.info("Initial count is [" + countOfEntries + "]");
 
-		ResponseEntity<GithubData> response = callData();
+		ResponseEntity<String> response = callData();
 		then(response.getStatusCode().is2xxSuccessful()).isTrue();
 		then(response.getBody()).isNotNull();
 
@@ -46,9 +52,16 @@ public class E2eTests {
 		await().until(() -> countGithubData() > countOfEntries);
 	}
 
-	private ResponseEntity<GithubData> callData() {
-		return this.restTemplate.getForEntity("http://" +
-				this.applicationUrl + "/data", GithubData.class);
+	private ResponseEntity<String> callData() throws IOException {
+		return this.restTemplate.exchange(RequestEntity
+				.post(URI.create("http://" +
+						this.applicationUrl.replace("github-analytics", "github-webhook")))
+				.contentType(MediaType.APPLICATION_JSON)
+				.body(data()), String.class);
+	}
+
+	public String data() throws IOException {
+		return new String(Files.readAllBytes(this.json.getFile().toPath()));
 	}
 
 	private Integer countGithubData() {
