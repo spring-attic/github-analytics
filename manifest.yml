@@ -3,6 +3,7 @@ applications:
 - name: github-analytics
   services:
     - rabbitmq-github
+    - mysql-github-analytics
     - github-eureka
   env:
     SPRING_PROFILES_ACTIVE: cloud

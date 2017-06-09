@@ -39,7 +39,7 @@ public class E2eTests {
 	RestTemplate restTemplate = new RestTemplate();
 
 	@Test
-	public void shouldStoreAMessageWhenGithubDataWasReceivedFromServiceDiscovery()
+	public void shouldStoreAMessageWhenGithubDataWasReceivedViaMessaging()
 			throws IOException {
 		final Integer countOfEntries = countGithubData();
 		log.info("Initial count is [" + countOfEntries + "]");
