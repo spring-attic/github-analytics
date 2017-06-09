@@ -66,7 +66,7 @@ public class E2eTests {
 
 	private Integer countGithubData() {
 		Integer response = this.restTemplate
-				.getForObject("http://" + this.applicationUrl + "/count", Integer.class);
+				.getForObject("http://" + this.applicationUrl + "/issues/count", Integer.class);
 		log.info("Received response [" + response + "]");
 		return response;
 	}
