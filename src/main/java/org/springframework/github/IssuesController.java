@@ -59,5 +59,10 @@ class IssuesController {
 		service.save(time, repo);
 	}
 
+	@DeleteMapping
+	public void delete() {
+		service.deleteAll();
+	}
+
 }
 
