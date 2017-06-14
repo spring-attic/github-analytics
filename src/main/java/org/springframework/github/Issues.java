@@ -31,11 +31,11 @@ class Issues {
 	@NotNull
 	private String username;
 	@NotNull
-	private String repository;
+	private String repo;
 
-	Issues(String username, String repository) {
+	Issues(String username, String repo) {
 		this.username = username;
-		this.repository = repository;
+		this.repo = repo;
 	}
 
 	Issues() {
@@ -49,17 +49,17 @@ class Issues {
 		this.username = username;
 	}
 
-	String getRepository() {
-		return this.repository;
+	String getRepo() {
+		return this.repo;
 	}
 
-	void setRepository(String lastname) {
-		this.repository = lastname;
+	void setRepo(String repo) {
+		this.repo = repo;
 	}
 
 	@Override
 	public String toString() {
-		return "IssueCreation [username=" + this.username + ", repository=" + this.repository
+		return "IssueCreation [username=" + this.username + ", repository=" + this.repo
 				+ "]";
 	}
 }

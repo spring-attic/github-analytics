@@ -34,7 +34,7 @@ class IssuesService {
 
 	List<IssueDto> allIssues() {
 		List<IssueDto> dtos = new ArrayList<>();
-		this.repository.findAll().forEach(i -> dtos.add(new IssueDto(i.getUsername(), i.getRepository())));
+		this.repository.findAll().forEach(i -> dtos.add(new IssueDto(i.getUsername(), i.getRepo())));
 		return dtos;
 	}
 
