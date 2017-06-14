@@ -39,6 +39,13 @@ class IssuesController {
 		this.service = service;
 	}
 
+	@GetMapping("/count")
+	public long count() {
+		long size = service.numberOfIssues();
+		log.info("Size of issues equals [{}]", size);
+		return size;
+	}
+
 	@GetMapping
 	public List<IssueDto> allIssues() {
 		return service.allIssues();
