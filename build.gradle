@@ -50,8 +50,8 @@ if (gradle.startParameter.taskRequests.any { it.args.contains("apiCompatibility"
 		contractDependency {
 			groupId = project.group
 			artifactId = project.name
-			classifier = "stubs"
-			version = getProp("latestProductionVersion")
+			delegate.classifier = "stubs"
+			delegate.version = getProp("latestProductionVersion")
 		}
 	}
 } else {
