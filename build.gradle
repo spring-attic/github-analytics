@@ -51,7 +51,8 @@ if (gradle.startParameter.taskRequests.any { it.args.contains("apiCompatibility"
 	contracts {
 		baseClassForTests = 'org.springframework.github.BaseClass'
 		basePackageForTests = 'com.example.contracttests'
-		contractsRepositoryUrl = getProp('REPO_WITH_JARS') ?: 'http://localhost:8081/artifactory/libs-release-local'
+		// REPO_WITH_JARS is deprecated
+		contractsRepositoryUrl = getProp('REPO_WITH_JARS') ?: getProp('REPO_WITH_BINARIES') ?: 'http://localhost:8081/artifactory/libs-release-local'
 		contractsPath = "/"
 		contractDependency {
 			groupId = project.group
@@ -91,7 +92,8 @@ dependencies {
 publishing {
 	repositories {
 		maven {
-			url getProp('REPO_WITH_JARS') ?: 'http://localhost:8081/artifactory/libs-release-local'
+			// REPO_WITH_JARS is deprecated
+			url getProp('REPO_WITH_JARS') ?: getProp('REPO_WITH_BINARIES') ?: 'http://localhost:8081/artifactory/libs-release-local'
 			credentials {
 				username getProp('M2_SETTINGS_REPO_USERNAME') ?: 'admin'
 				password getProp('M2_SETTINGS_REPO_PASSWORD') ?: 'password'
