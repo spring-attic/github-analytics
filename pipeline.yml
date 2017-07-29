@@ -1,0 +1,25 @@
+# This file describes which services are required by this application
+# in order for the smoke tests on the TEST environment and end to end tests
+# on the STAGE environment to pass
+
+# lowercase name of the environment
+test:
+  # list of required services
+  services:
+    # type and name of the service
+    - type: rabbitmq
+      name: rabbitmq-github-analytics
+    - type: mysql
+      name: mysql-github-analytics
+    - type: eureka
+      name: eureka-github-analytics
+    - type: stubrunner
+      name: stubrunner-github-analytics
+stage:
+  services:
+    - type: rabbitmq
+      name: rabbitmq-github
+    - type: mysql
+      name: mysql-github
+    - type: eureka
+      name: github-eureka
