@@ -13,8 +13,11 @@ test:
       name: mysql-github-analytics
     - type: eureka
       name: eureka-github-analytics
+      coordinates: com.example.eureka:github-eureka:0.0.1.M1
     - type: stubrunner
       name: stubrunner-github-analytics
+      coordinates: com.example.github:github-analytics-stub-runner-boot-classpath-stubs:0.0.1.M1
+      useClasspath: true
 stage:
   services:
     - type: rabbitmq
@@ -23,3 +26,4 @@ stage:
       name: mysql-github
     - type: eureka
       name: github-eureka
+      coordinates: com.example.eureka:github-eureka:0.0.1.M1
