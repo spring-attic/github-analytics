@@ -1,7 +1,9 @@
 spring:
   application.name: github-analytics
 
-  cloud.stream.bindings.input.destination: messages
+  cloud.stream.bindings.input:
+    destination: messages
+    group: github-analytics
 
   jpa:
     database: MYSQL
