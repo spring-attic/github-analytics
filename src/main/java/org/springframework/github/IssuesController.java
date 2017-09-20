@@ -21,9 +21,11 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,7 +54,17 @@ class IssuesController {
 	}
 
 	@PostMapping
-	public void data() {
+	public void save(@RequestBody IssueDto issue) {
+		if (issue == null) {
+			data();
+			return;
+		}
+		Assert.hasText(issue.getUserName(), "username must be set");
+		Assert.hasText(issue.getRepository(), "repository must be set");
+		service.save(issue.getUserName(), issue.getRepository());
+	}
+
+	private void data() {
 		String time = LocalDateTime.now().toString();
 		String repo = "spring-cloud/" + time;
 		log.info("Will store an issue name [{}], repo [{}]", time, repo);
