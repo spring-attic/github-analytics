@@ -2,9 +2,11 @@ package smoke;
 
 import java.lang.invoke.MethodHandles;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.awaitility.Awaitility;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,20 +32,23 @@ public class IntegrationTests {
 
 	@Value("${stubrunner.url}") String stubRunnerUrl;
 	@Value("${application.url}") String applicationUrl;
+	@Value("${test.timeout:60}") Long timeout;
 
 	RestTemplate restTemplate = new RestTemplate();
 
 	@Test
 	public void shouldStoreAMessageWhenGithubDataWasReceivedViaMessaging() {
-		final Integer countOfEntries = countGithubData();
-		log.info("Initial count is [" + countOfEntries + "]");
+		Awaitility.await().atMost(this.timeout, TimeUnit.SECONDS).untilAsserted(() -> {
+			final Integer countOfEntries = countGithubData();
+			log.info("Initial count is [" + countOfEntries + "]");
 
-		ResponseEntity<Map> response = triggerMessage();
-		then(response.getStatusCode().is2xxSuccessful()).isTrue();
-		log.info("Triggered additional message");
+			ResponseEntity<Map> response = triggerMessage();
+			then(response.getStatusCode().is2xxSuccessful()).isTrue();
+			log.info("Triggered additional message");
 
-		log.info("Awaiting proper count of github data");
-		await().until(() -> countGithubData() > countOfEntries);
+			log.info("Awaiting proper count of github data");
+			await().until(() -> countGithubData() > countOfEntries);
+		});
 	}
 
 	private ResponseEntity<Map> triggerMessage() {

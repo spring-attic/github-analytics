@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.net.URI;
 import java.nio.file.Files;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.awaitility.Awaitility;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,21 +37,24 @@ public class E2eTests {
 
 	@Value("${application.url}") String applicationUrl;
 	@Value("${classpath:json/issue-created.json}") Resource json;
+	@Value("${test.timeout:60}") Long timeout;
 
 	RestTemplate restTemplate = new RestTemplate();
 
 	@Test
 	public void shouldStoreAMessageWhenGithubDataWasReceivedViaMessaging()
 			throws IOException {
-		final Integer countOfEntries = countGithubData();
-		log.info("Initial count is [" + countOfEntries + "]");
+		Awaitility.await().atMost(this.timeout, TimeUnit.SECONDS).untilAsserted(() -> {
+			final Integer countOfEntries = countGithubData();
+			log.info("Initial count is [" + countOfEntries + "]");
 
-		ResponseEntity<String> response = callData();
-		then(response.getStatusCode().is2xxSuccessful()).isTrue();
-		then(response.getBody()).isNotNull();
+			ResponseEntity<String> response = callData();
+			then(response.getStatusCode().is2xxSuccessful()).isTrue();
+			then(response.getBody()).isNotNull();
 
-		log.info("Awaiting proper count of github data");
-		await().until(() -> countGithubData() > countOfEntries);
+			log.info("Awaiting proper count of github data");
+			await().until(() -> countGithubData() > countOfEntries);
+		});
 	}
 
 	private ResponseEntity<String> callData() throws IOException {
