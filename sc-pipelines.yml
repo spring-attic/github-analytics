@@ -23,7 +23,7 @@ stage:
     - type: rabbitmq
       name: github-rabbitmq
     - type: mysql
-      name: mysql-github
+      name: mysql-github-analytics
     - type: eureka
       name: github-eureka
       coordinates: com.example.eureka:github-eureka:0.0.1.M1
