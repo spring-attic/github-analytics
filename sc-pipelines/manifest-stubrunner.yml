@@ -1,0 +1,12 @@
+---
+applications:
+- name: stubrunner
+  services:
+    - github-rabbitmq
+    - github-eureka
+  env:
+    SPRING_PROFILES_ACTIVE: cloud
+    DEBUG: "true"
+    # TODO: Remove this from github eureka codebases
+    APPLICATION_DOMAIN: stubrunner-sc-pipelines-test.cfapps.io
+    STUBRUNNER_REPOSITORY_ROOT:
