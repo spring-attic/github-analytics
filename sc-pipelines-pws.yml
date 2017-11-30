@@ -19,8 +19,8 @@ test:
       type: app
       coordinates: com.example.eureka:github-eureka:0.0.1.M1
       pathToManifest: sc-pipelines/manifest-eureka.yml
-    - type: stubrunner
-      name: stubrunner
+    - name: stubrunner
+      type: stubrunner
       coordinates: com.example.github:github-analytics-stub-runner-boot-classpath-stubs:0.0.1.M1
       pathToManifest: sc-pipelines/manifest-stubrunner.yml
 stage:
