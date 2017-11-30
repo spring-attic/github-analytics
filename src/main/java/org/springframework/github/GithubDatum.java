@@ -15,6 +15,8 @@
  */
 package org.springframework.github;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class GithubDatum {
 
