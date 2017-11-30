@@ -118,3 +118,9 @@ String getProp(String propName) {
 			(getProperty(propName) ?: System.properties[propName]) : System.properties[propName] ?:
 			System.getenv(propName)
 }
+
+test {
+	afterTest { desc, result ->
+		logger.quiet "Executing test ${desc.name} [${desc.className}] with result: ${result.resultType}"
+	}
+}
