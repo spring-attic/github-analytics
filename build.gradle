@@ -25,7 +25,8 @@ ext {
 	projectGroupId = project.group
 	projectArtifactId = project.name
 	projectVersion = project.version
-	stubrunnerIds = 'com.example.github:github-webhook'
+	// due to CF multiport binding issues we need to hardcode the values
+	stubrunnerIds = 'com.example.github:github-webhook:+:stubs:10000'
 }
 
 repositories {
