@@ -9,5 +9,6 @@ spring:
     database: MYSQL
 
 server.port: ${PORT:8081}
-endpoints.sensitive: false
-management.security.enabled: false
+
+management.endpoints.web.exposure.include: "*"
+management.endpoints.web.base-path: /

@@ -1,10 +1,9 @@
 package org.springframework.github;
 
-import com.jayway.restassured.module.mockmvc.RestAssuredMockMvc;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.Before;
 import org.mockito.Mockito;
 

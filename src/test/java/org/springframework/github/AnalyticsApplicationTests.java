@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.contract.stubrunner.StubTrigger;
 import org.springframework.cloud.contract.stubrunner.spring.AutoConfigureStubRunner;
+import org.springframework.cloud.contract.stubrunner.spring.StubRunnerProperties;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -15,7 +16,8 @@ import static org.assertj.core.api.BDDAssertions.then;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = AnalyticsApplication.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @AutoConfigureStubRunner(ids = {"com.example.github:github-webhook"},
-		repositoryRoot = "${REPO_WITH_JARS:https://repo.spring.io/milestone/}")
+		repositoryRoot = "${REPO_WITH_JARS:https://repo.spring.io/milestone/}",
+		stubsMode = StubRunnerProperties.StubsMode.REMOTE)
 @ActiveProfiles("test")
 public class AnalyticsApplicationTests {
 
