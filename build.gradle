@@ -14,7 +14,7 @@ buildscript {
 		maven { url "http://repo.spring.io/release" }
 	}
 	dependencies {
-		classpath "org.springframework.boot:spring-boot-gradle-plugin:2.0.1.RELEASE"
+		classpath "org.springframework.boot:spring-boot-gradle-plugin:2.0.3.RELEASE"
 		classpath "org.springframework.cloud:spring-cloud-contract-gradle-plugin:${project.hasProperty("scContractVersion") ? project.property("scContractVersion") : "2.0.0.RC1"}"
 	}
 }
