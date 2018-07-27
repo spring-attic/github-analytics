@@ -54,6 +54,7 @@ if (gradle.startParameter.taskRequests.any { it.args.contains("apiCompatibility"
 		baseClassForTests = 'org.springframework.github.BaseClass'
 		basePackageForTests = 'com.example.contracttests'
 		contractsPath = "/"
+		contractsSnapshotCheckSkip = true
 		contractRepository {
 			repositoryUrl(getProp('REPO_WITH_JARS') ?:
 					getProp('REPO_WITH_BINARIES') ?: 'http://localhost:8081/artifactory/libs-release-local')
@@ -70,6 +71,7 @@ if (gradle.startParameter.taskRequests.any { it.args.contains("apiCompatibility"
 	contracts {
 		baseClassForTests = 'org.springframework.github.BaseClass'
 		basePackageForTests = 'com.example.contracttests'
+		contractsSnapshotCheckSkip = true
 	}
 }
 
