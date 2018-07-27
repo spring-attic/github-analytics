@@ -122,8 +122,22 @@ String getProp(String propName) {
 			System.getenv(propName)
 }
 
-test {
-	afterTest { desc, result ->
-		logger.quiet "Executing test ${desc.name} [${desc.className}] with result: ${result.resultType}"
-	}
+
+// Fail if no tests are executed
+allprojects {
+   afterEvaluate {
+      tasks.withType(Test) {
+				it.testLogging {
+						exceptionFormat = 'full'
+						afterSuite { desc, result ->
+							if (!desc.parent) {
+								println "Results: (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+								if (result.testCount == 0) {
+									throw new IllegalStateException("No tests were found. Failing the build")
+								}
+							}
+						}
+					}
+			}
+   }
 }
