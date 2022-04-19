@@ -1,3 +1,5 @@
+# github-analytics is no longer actively maintained by VMware, Inc.
+
 = GitHub Analytics
 
 GitHub Analytics app. Analyses GitHub messages received from Github Webhook app. Part of the deployment pipeline example.
